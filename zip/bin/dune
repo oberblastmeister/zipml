@@ -1,0 +1,4 @@
+(executable
+ (name zip)
+ (public_name zip)
+ (libraries zip))

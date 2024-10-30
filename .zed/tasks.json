@@ -1,0 +1,29 @@
+// Static tasks configuration.
+//
+// Example:
+[
+    {
+        "label": "Build",
+        "command": "eval $(opam env) && dune build",
+        "use_new_terminal": false,
+        "allow_concurrent_runs": false,
+        "reveal": "always",
+        "hide": "never"
+    },
+    {
+        "label": "Test",
+        "command": "eval $(opam env) && dune test",
+        "use_new_terminal": false,
+        "allow_concurrent_runs": false,
+        "reveal": "always",
+        "hide": "never"
+    },
+    {
+        "label": "Promote",
+        "command": "eval $(opam env) && dune promote",
+        "use_new_terminal": false,
+        "allow_concurrent_runs": false,
+        "reveal": "always",
+        "hide": "never"
+    }
+]

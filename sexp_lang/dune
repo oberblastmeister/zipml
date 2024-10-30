@@ -1,0 +1,19 @@
+(include_subdirs qualified)
+
+(library
+ (name sexp_lang)
+ (inline_tests)
+ (flags
+  ; turn pattern matching into error
+  (:standard -warn-error -A+8 -w -23))
+ (preprocess
+  (pps
+   ppx_jane
+   ppx_inline_test
+   ppx_deriving.enum
+   ppx_deriving.iter
+   ppx_deriving.map
+   ppx_deriving.fold))
+ (libraries
+  core
+  algaeff))
