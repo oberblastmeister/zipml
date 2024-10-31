@@ -185,7 +185,14 @@ and parse_mod_bind s =
          Surface.BindSig { name; ty }
        | _ ->
          let either = List_state.next xs |> parse_mod_name_or_func in
-         let expr = List_state.next xs |> parse_mod_expr in
+         let expr =
+           match List_state.peek xs with
+           | Some (Atom { value = ":"; _ }) ->
+             List_state.next xs |> ignore;
+             let ty = parse_mod_ty @@ List_state.next xs in
+             Surface.ModAnn { ty; expr = List_state.next xs |> parse_mod_expr }
+           | _ -> List_state.next xs |> parse_mod_expr
+         in
          (match either with
           | First name -> Surface.BindMod { name; expr }
           | Second (name, params) ->
