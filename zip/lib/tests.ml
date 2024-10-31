@@ -63,6 +63,9 @@ let%expect_test "parse mod ascription" =
       (sig (type t))
     )
   )
+
+  (module Third : (sig (type t))
+    First)
   |};
   [%expect
     {|
@@ -94,6 +97,28 @@ let%expect_test "parse mod ascription" =
                     ((prefix
                       (PrefixSelf
                        ((var ((name self) (id 4))) (index ()) (necessary true))))
+                     (var ((name t) (id -1))))))))))))))))
+        (BindMod (name ((name Third) (id -1)))
+         (expr
+          (ModAnn
+           (expr
+            (ModPath
+             (PathAccess
+              ((prefix
+                (PrefixSelf
+                 ((var ((name self) (id 2))) (index ()) (necessary true))))
+               (var ((name First) (id -1)))))))
+           (ty
+            (SigStruct
+             ((self ((name self) (id 5)))
+              (decls
+               ((DeclType
+                 ((name ((name t) (id -1)))
+                  (ty
+                   (TyVar
+                    ((prefix
+                      (PrefixSelf
+                       ((var ((name self) (id 5))) (index ()) (necessary true))))
                      (var ((name t) (id -1))))))))))))))))))))
     |}]
 ;;
@@ -624,15 +649,12 @@ let%expect_test "single applicative functor" =
     )
   )
 
-  (module (F (T : Type))
-    (:
-      (struct
-        (type t unit)
-        (type t' T.t)
+  (module (F (T : Type)) : Result
+    (struct
+      (type t unit)
+      (type t' T.t)
 
-        (val v mkunit)
-      )
-      Result
+     (val v mkunit)
     )
   )
 
@@ -647,11 +669,8 @@ let%expect_test "single applicative functor" =
     )
   )
 
-  (module T1
-    (:
-      (struct (type t unit))
-      Type
-    )
+  (module T1 : Type 
+    (struct (type t unit))
   )
 
   (module T2
